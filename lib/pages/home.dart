@@ -55,11 +55,11 @@ class Home extends StatelessWidget {
           appBar: nav(),
           body: TabBarView(
             children: [
-              AllPage(),
-              AllPage(),
-              AllPage(),
-              AllPage(),
-              AllPage(),
+              AllPage('All'),
+              AllPage('Recevied'),
+              AllPage('Preparing'),
+              AllPage('Redy'),
+              AllPage('On The Way'),
             ],
           ),
         ),
@@ -69,6 +69,8 @@ class Home extends StatelessWidget {
 }
 
 class AllPage extends StatelessWidget {
+  final String status;
+  AllPage(this.status);
   @override
   Widget build(BuildContext context) {
     Widget content() {
@@ -206,7 +208,23 @@ class AllPage extends StatelessWidget {
                       fontWeight: bold,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Rejected'),
+                      content: const Text('AlertDialog description'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'Cancel'),
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, 'OK'),
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
@@ -222,7 +240,7 @@ class AllPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  'Recevied',
+                  status,
                   style: textBlack.copyWith(
                     fontSize: 12,
                     fontWeight: bold,
@@ -248,6 +266,17 @@ class AllPage extends StatelessWidget {
         content(),
         content(),
         content(),
+        content(),
+        content(),
+        content(),
+        content(),
+        content(),
+        content(),
+        content(),
+        content(),
+        content(),
+        content(),
+        content(),
       ],
     );
   }
@@ -256,8 +285,98 @@ class AllPage extends StatelessWidget {
 class AcceptedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Widget nav() {
+      return AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        iconTheme: IconThemeData(color: blackColor),
+        title: Text(
+          'Order Details',
+          style: textBlack.copyWith(
+            fontWeight: bold,
+          ),
+        ),
+      );
+    }
+
+    Widget body() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // todo title
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Order sumarry',
+                style: textBlack.copyWith(
+                  fontWeight: bold,
+                ),
+              ),
+              Text(
+                '#24',
+                style: textGrey.copyWith(
+                  fontWeight: bold,
+                ),
+              ),
+            ],
+          ),
+
+          Divider(
+            thickness: 1,
+          ),
+
+          //todo list order
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Grill Dumplings (4)',
+                style: textBlack,
+              ),
+              Text(
+                '\$4.80',
+                style: textBlack,
+              ),
+            ],
+          ),
+          Divider(
+            thickness: 1,
+            color: Colors.blueAccent,
+          ),
+
+          //todo list order
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Total',
+                style: textBlack.copyWith(
+                  fontWeight: bold,
+                ),
+              ),
+              Text(
+                '\$4.80',
+                style: textGrey.copyWith(
+                  fontWeight: bold,
+                  color: Colors.redAccent,
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+    }
+
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: Colors.white,
+      appBar: nav(),
+      body: ListView(
+        padding: EdgeInsets.all(defaultMargin),
+        children: [
+          body(),
+        ],
+      ),
     );
   }
 }
