@@ -13,14 +13,31 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    handleSignIn() async {
+      setState(() {
+        isLoading = true;
+      });
 
-    handleLogin() async {
       if (await authProvider.login(
         email: emailController.text,
         password: passwordController.text,
       )) {
-        Navigator.pushNamed(context, '/home');
+        Navigator.pushNamed(context, '/main-page');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              'Gagal Login',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
       }
+
+      setState(() {
+        isLoading = false;
+      });
     }
 
     Widget header() {
@@ -174,7 +191,7 @@ class _LoginState extends State<Login> {
           borderRadius: BorderRadius.circular(12),
         ),
         child: TextButton(
-          onPressed: handleLogin,
+          onPressed: handleSignIn,
           child: Text(
             'Login',
             style: textWhite.copyWith(

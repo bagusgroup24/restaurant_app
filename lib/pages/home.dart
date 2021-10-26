@@ -1,110 +1,66 @@
 part of 'pages.dart';
 
 class Home extends StatelessWidget {
-  final bool internet = false;
   @override
   Widget build(BuildContext context) {
+    Widget nav() => PreferredSize(
+          preferredSize: Size.fromHeight(120),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.white,
+            flexibleSpace: Container(
+              margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+              child: Row(
+                children: [
+                  Image.asset(
+                    'assets/logo.png',
+                    width: 80,
+                  ),
+                  Spacer(),
+                  Icon(
+                    Icons.message,
+                    color: orangeColor,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Icon(
+                    Icons.notifications,
+                    color: orangeColor,
+                  ),
+                ],
+              ),
+            ),
+            bottom: TabBar(
+              isScrollable: true,
+              labelColor: orangeColor,
+              indicatorColor: orangeColor,
+              unselectedLabelColor: blackColor,
+              tabs: [
+                Text('All'),
+                Text('Recevied'),
+                Text('Preparing'),
+                Text('Ready'),
+                Text('On The Way'),
+              ],
+            ),
+          ),
+        );
+
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: orangeColor,
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          title: Text('MY ORDERS'),
-          flexibleSpace: Container(
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Icon(
-                  Icons.menu,
-                  color: whiteColor,
-                ),
-                GestureDetector(
-                  onTap: () => showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Logout'),
-                      content: const Text('AlertDialog description'),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () => Navigator.pop(context, 'Cancel'),
-                          child: const Text('Cancel'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/login');
-                          },
-                          child: const Text('OK'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  child: Icon(
-                    Icons.logout,
-                    color: whiteColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        body: Container(
-          margin: EdgeInsets.only(top: defaultMargin),
-          child: DefaultTabController(
-            length: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ButtonsTabBar(
-                  borderColor: orangeColor,
-                  unselectedBorderColor: orangeColor,
-                  backgroundColor: orangeColor,
-                  unselectedBackgroundColor: Colors.white,
-                  labelStyle: textBlack.copyWith(
-                    fontWeight: bold,
-                  ),
-                  unselectedLabelStyle: textOrange.copyWith(
-                    fontWeight: bold,
-                  ),
-                  height: 40,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 55),
-                  buttonMargin: EdgeInsets.symmetric(horizontal: 0),
-                  borderWidth: 1,
-                  tabs: [
-                    Tab(
-                      text: 'NEW',
-                    ),
-                    Tab(
-                      text: 'ACCEPTED',
-                    ),
-                    Tab(
-                      text: 'REJECTED',
-                    ),
-                  ],
-                ),
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      NewOrder(),
-                      AcceptedOrder(),
-                      RejectedOrder(),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar: Container(
-          width: double.infinity,
-          height: 20,
-          color: internet ? Colors.green : Colors.red,
-          child: Center(
-            child: Text(
-              'Connected server to respone 1 :',
-            ),
+      child: DefaultTabController(
+        length: 5,
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: nav(),
+          body: TabBarView(
+            children: [
+              AllPage(),
+              AllPage(),
+              AllPage(),
+              AllPage(),
+              AllPage(),
+            ],
           ),
         ),
       ),
@@ -112,582 +68,196 @@ class Home extends StatelessWidget {
   }
 }
 
-class NewOrder extends StatelessWidget {
+class AllPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Container(
-          margin: EdgeInsets.only(top: 20),
-          width: double.infinity,
-          height: 20,
-          color: greyColor.withOpacity(0.2),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Himanshu Rawal',
-                      style: textOrange.copyWith(
-                        fontWeight: bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  Icon(Icons.phone),
-                  SizedBox(width: 20),
-                  Icon(
-                    Icons.message,
-                  ),
-                ],
-              ),
-              Text(
-                'Order Number :',
-                style: textBlack,
-              ),
-              Divider(
-                thickness: 2,
-              ),
-              Row(
-                children: [
-                  Icon(Icons.calendar_today),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '22 may 2017',
-                    style: textBlack,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Icon(Icons.timer),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '22:00 - 23:00 WIB',
-                    style: textBlack,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Row(
-                children: [
-                  Text(
-                    'RS. 255',
-                    style: textBlack.copyWith(
-                      fontSize: 20,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 20),
-                    padding: EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: greyColor.withOpacity(0.4)),
-                    ),
-                    child: Text(
-                      'Cash on Delivery',
-                      style: textGrey.copyWith(
-                        color: greyColor.withOpacity(0.4),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      '32 Galungan Road, Baturaja Denpasar, Bali12121',
-                      style: textGrey.copyWith(
-                        color: greyColor.withOpacity(0.4),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 16,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 30,
-                        ),
-                        backgroundColor: Colors.greenAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        )),
-                    onPressed: () {},
-                    child: Text(
-                      'ACCEPT',
-                      style: textBlack,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: greyColor),
-                      ),
-                      child: Text(
-                        'REJECT',
-                        style: textBlack,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+    Widget content() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Order ID #24',
+            style: textOrange.copyWith(
+              fontWeight: bold,
+              fontSize: 18,
+            ),
           ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 10),
-          width: double.infinity,
-          height: 20,
-          color: greyColor.withOpacity(0.2),
-        ),
-      ],
-    );
-  }
-}
-
-class AcceptedOrder extends StatefulWidget {
-  @override
-  _AcceptedOrderState createState() => _AcceptedOrderState();
-}
-
-class _AcceptedOrderState extends State<AcceptedOrder> {
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        SizedBox(
-          height: 20,
-        ),
-        ListTile(
-          leading: FlutterLogo(),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Fresh Fare',
-                style: textBlack.copyWith(
-                  fontWeight: semiBold,
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                '\$500 (6 items)',
-                style: textGrey.copyWith(
-                  fontWeight: bold,
-                  fontSize: 12,
-                ),
-              ),
-              Text(
-                'Accepted',
-                style: textBlack.copyWith(
-                  fontSize: 12,
-                  color: Colors.greenAccent,
-                ),
-              ),
-            ],
+          SizedBox(
+            height: 10,
           ),
-          trailing: Text('Today'),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 14),
-          padding: EdgeInsets.all(20),
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
-              Text(
-                'Your order has been accepted',
-                style: textBlack.copyWith(
-                  fontWeight: semiBold,
-                  fontSize: 16,
-                ),
+              Icon(
+                Icons.date_range,
+                color: greyColor,
               ),
               SizedBox(
-                height: 15,
+                width: 5,
               ),
-              Text(
-                'Estimated delivery time',
-                style: textBlack.copyWith(
-                  fontWeight: semiBold,
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      '20:20',
-                      style: textBlack.copyWith(
-                        fontWeight: semiBold,
-                        fontSize: 36,
-                        color: Colors.greenAccent,
-                      ),
-                    ),
-                  ),
-                  Icon(
-                    Icons.departure_board_outlined,
-                    size: 80,
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.all(20),
-          margin: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Delivering to :',
-                style: textBlack.copyWith(
-                  fontWeight: semiBold,
-                  fontSize: 16,
+              Expanded(
+                child: Text(
+                  '2021-10-26',
+                  style: textGrey.copyWith(),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 10),
-                width: double.infinity,
-                height: 20,
-                color: blackColor,
-              ),
-            ],
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.all(20),
-          margin: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Order sunmmary',
-                      style: textBlack.copyWith(
-                        fontWeight: semiBold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '#2534363446',
-                    style: textBlack,
-                  ),
-                ],
-              ),
-              Divider(
-                thickness: 2,
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Grill Dumplings(4)',
-                      style: textBlack.copyWith(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '\$5,00',
-                    style: textBlack.copyWith(
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Prawn Crackers',
-                      style: textBlack.copyWith(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '\$1,80',
-                    style: textBlack.copyWith(
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Spare Ribs with Barbecued Sauce',
-                      style: textBlack.copyWith(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '\$5,80',
-                    style: textBlack.copyWith(
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Hot & Sour Shop',
-                      style: textBlack.copyWith(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '\$3,00',
-                    style: textBlack.copyWith(
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-              Divider(
-                thickness: 2,
-              ),
-              SizedBox(
-                height: 2,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Total Price',
-                      style: textBlack.copyWith(
-                        fontWeight: semiBold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '\$253,6',
-                    style: textBlack.copyWith(
-                      fontWeight: semiBold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            children: [
-              TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: blackColor,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 5,
+                  vertical: 5,
                 ),
-                onPressed: () async {},
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: Text(
-                  'Print',
+                  'Cash on Delivery',
                   style: textWhite.copyWith(
-                    fontSize: 20,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: [
+              Text(
+                'Customer Name : ',
+                style: textGrey.copyWith(),
+              ),
+              Expanded(
+                child: Text(
+                  'amit kumar',
+                  style: textOrange.copyWith(
+                    fontWeight: bold,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Icon(
+                Icons.location_history,
+                color: greyColor,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                'Curbside Pickup',
+                style: textGrey.copyWith(),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  '\$500',
+                  style: textOrange.copyWith(
+                    fontWeight: bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              Container(
+                width: 80,
+                height: 30,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.greenAccent,
+                  ),
+                  child: Text(
+                    'Accepted',
+                    style: textBlack.copyWith(
+                      fontSize: 10,
+                      fontWeight: bold,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/accepted-page');
+                  },
+                ),
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Container(
+                width: 80,
+                height: 30,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.redAccent,
+                  ),
+                  child: Text(
+                    'Rejected',
+                    style: textBlack.copyWith(
+                      fontSize: 10,
+                      fontWeight: bold,
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+              SizedBox(
+                width: 30,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.yellowAccent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  'Recevied',
+                  style: textBlack.copyWith(
+                    fontSize: 12,
                     fontWeight: bold,
                   ),
                 ),
               ),
             ],
           ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
+          Divider(
+            thickness: 2,
+            color: Colors.purpleAccent,
+          ),
+          SizedBox(
+            height: 50,
+          ),
+        ],
+      );
+    }
+
+    return ListView(
+      padding: EdgeInsets.all(defaultMargin),
+      children: [
+        content(),
+        content(),
+        content(),
       ],
     );
   }
 }
 
-class RejectedOrder extends StatelessWidget {
+class AcceptedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Container(
-          margin: EdgeInsets.only(top: 20),
-          width: double.infinity,
-          height: 20,
-          color: greyColor.withOpacity(0.2),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      'Himanshu Rawal',
-                      style: textOrange.copyWith(
-                        fontWeight: bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    color: Colors.redAccent,
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Text('rejected'),
-                  ),
-                  // Icon(Icons.phone),
-                  // SizedBox(width: 20),
-                  // Icon(
-                  //   Icons.message,
-                  // ),
-                ],
-              ),
-              Text(
-                'Order Number :',
-                style: textBlack,
-              ),
-              Divider(
-                thickness: 2,
-              ),
-              Row(
-                children: [
-                  Icon(Icons.calendar_today),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '22 may 2017',
-                    style: textBlack,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Icon(Icons.timer),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    '22:00 - 23:00 WIB',
-                    style: textBlack,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Row(
-                children: [
-                  Text(
-                    'RS. 255',
-                    style: textBlack.copyWith(
-                      fontSize: 20,
-                      fontWeight: bold,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 20),
-                    padding: EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: greyColor.withOpacity(0.4)),
-                    ),
-                    child: Text(
-                      'Cash on Delivery',
-                      style: textGrey.copyWith(
-                        color: greyColor.withOpacity(0.4),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      '32 Galungan Road, Baturaja Denpasar, Bali12121',
-                      style: textGrey.copyWith(
-                        color: greyColor.withOpacity(0.4),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 16,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(top: 10),
-          width: double.infinity,
-          height: 20,
-          color: greyColor.withOpacity(0.2),
-        ),
-      ],
+    return Scaffold(
+      appBar: AppBar(),
     );
   }
 }

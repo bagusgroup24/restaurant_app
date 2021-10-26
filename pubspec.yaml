@@ -22,12 +22,19 @@ environment:
 
 dependencies:
   buttons_tabbar: ^1.1.2
+  flutter_slider_drawer: ^1.2.1
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
   google_fonts: ^1.1.2
   http: ^0.12.2
   provider: ^4.3.3
+  flutter_launcher_icons: ^0.8.1
+
+flutter_icons:
+  android: 'launcher_icon'
+  ios: true
+  image_path: 'assets/logo.png'
 
 dev_dependencies:
   flutter_test:

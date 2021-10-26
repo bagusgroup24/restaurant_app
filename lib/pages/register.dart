@@ -16,15 +16,32 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    handleSignUp() async {
+      setState(() {
+        isLoading = true;
+      });
 
-    handleRegister() async {
       if (await authProvider.register(
         name: nameController.text,
         email: emailController.text,
         password: passwordController.text,
       )) {
-        Navigator.pushNamed(context, '/home');
+        Navigator.pushNamed(context, '/main-page');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              'Gagal Register',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
       }
+
+      setState(() {
+        isLoading = false;
+      });
     }
 
     Widget header() {
@@ -232,7 +249,7 @@ class _RegisterState extends State<Register> {
           borderRadius: BorderRadius.circular(12),
         ),
         child: TextButton(
-          onPressed: handleRegister,
+          onPressed: handleSignUp,
           child: Text(
             'Register',
             style: textWhite.copyWith(
